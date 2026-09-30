@@ -1,0 +1,327 @@
+# ============================================================
+
+# AZOR SUITE
+
+# Autodesk Inventor Add-in / C# / .NET Framework / Visual Studio
+
+# ============================================================
+
+# ------------------------------------------------------------
+
+# Visual Studio
+
+# ------------------------------------------------------------
+
+.vs/
+.vscode/
+
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+# Visual Studio indexes / caches
+
+*.vsidx
+*.sdf
+*.opensdf
+*.VC.db
+*.VC.VC.opendb
+
+# Visual Studio temporary files
+
+*.tmp
+*.temp
+*.bak
+
+# ------------------------------------------------------------
+
+# Build output
+
+# ------------------------------------------------------------
+
+[Bb]in/
+[Oo]bj/
+
+# Generated build artifacts
+
+*.dll
+*.exe
+*.pdb
+*.ilk
+*.exp
+*.lib
+*.obj
+
+# Deployment / publish output
+
+publish/
+[Pp]ublish/
+artifacts/
+
+# ------------------------------------------------------------
+
+# .NET / NuGet
+
+# ------------------------------------------------------------
+
+packages/
+
+*.nupkg
+*.snupkg
+
+# NuGet generated files
+
+project.assets.json
+project.nuget.cache
+
+# Package lock files are normally intentionally versioned,
+
+# therefore DO NOT ignore packages.lock.json.
+
+# ------------------------------------------------------------
+
+# Test / Coverage
+
+# ------------------------------------------------------------
+
+TestResults/
+[Tt]est[Rr]esults/
+
+coverage/
+Coverage/
+*.coverage
+*.coveragexml
+*.opencover.xml
+*.trx
+
+# ------------------------------------------------------------
+
+# ReSharper / JetBrains Rider
+
+# ------------------------------------------------------------
+
+_ReSharper*/
+*.[Rr]e[Ss]harper*
+
+.idea/
+
+*.DotSettings.user
+
+# ------------------------------------------------------------
+
+# Microsoft Code Analysis / analyzers
+
+# ------------------------------------------------------------
+
+*.sarif
+
+# ------------------------------------------------------------
+
+# Temporary / generated documentation
+
+# ------------------------------------------------------------
+
+*.chm
+
+# ------------------------------------------------------------
+
+# Node.js / Frontend
+
+# Useful for future WebView2 UI or frontend tooling
+
+# ------------------------------------------------------------
+
+node_modules/
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+.npm/
+.yarn/
+.pnpm-store/
+
+# Frontend build output
+
+dist/
+build/
+
+# Vite cache
+
+.vite/
+
+# ------------------------------------------------------------
+
+# Environment / secrets
+
+# ------------------------------------------------------------
+
+.env
+.env.*
+!.env.example
+
+# Local configuration containing secrets
+
+appsettings.Local.json
+appsettings.*.Local.json
+
+# Certificates / private keys
+
+*.pfx
+*.p12
+*.key
+
+# Credentials / secrets
+
+secrets.json
+credentials.json
+
+# ------------------------------------------------------------
+
+# Logs
+
+# ------------------------------------------------------------
+
+*.log
+logs/
+Log/
+Logs/
+
+# ------------------------------------------------------------
+
+# Windows
+
+# ------------------------------------------------------------
+
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ------------------------------------------------------------
+
+# macOS
+
+# ------------------------------------------------------------
+
+.DS_Store
+.AppleDouble
+.LSOverride
+
+._*
+
+.Spotlight-V100
+.Trashes
+
+# ------------------------------------------------------------
+
+# Linux
+
+# ------------------------------------------------------------
+
+*~
+
+# ------------------------------------------------------------
+
+# Autodesk / Inventor generated files
+
+# ------------------------------------------------------------
+
+# Inventor temporary / lock files
+
+*.lck
+
+# Autodesk temporary files
+
+*.tmp
+
+# Do NOT ignore .addin files:
+
+# They are part of the Add-in configuration and should be versioned.
+
+# ------------------------------------------------------------
+
+# Local deployment / development copies
+
+# ------------------------------------------------------------
+
+# Local folders used to copy Add-ins during development
+
+/deploy/
+/deployment/
+/local-deploy/
+/debug-deploy/
+
+# ------------------------------------------------------------
+
+# Database / local development files
+
+# ------------------------------------------------------------
+
+*.sqlite
+*.sqlite3
+
+# Local database files
+
+/data/local/
+
+# ------------------------------------------------------------
+
+# IDE / OS generated folders
+
+# ------------------------------------------------------------
+
+.vagrant/
+.terraform/
+
+# Temporary folders
+
+temp/
+tmp/
+
+# ------------------------------------------------------------
+
+# Optional: generated documentation
+
+# Uncomment only if documentation is generated automatically
+
+# ------------------------------------------------------------
+
+#docs/generated/
+
+# ------------------------------------------------------------
+
+# Keep important source/configuration files
+
+# ------------------------------------------------------------
+
+# The following should NOT be ignored:
+
+#
+
+# *.cs
+
+# *.csproj
+
+# *.sln
+
+# *.addin
+
+# *.config
+
+# appsettings.json
+
+# appsettings.example.json
+
+# README.md
+
+# LICENSE
+
+#
+
+# These are part of the project and should normally be committed.
