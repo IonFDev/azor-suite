@@ -21,13 +21,16 @@ namespace AzorSuite.Publisher
             {
                 Publish();
 
-                Console.WriteLine("Publicación completada correctamente.");
+                Console.WriteLine(
+                    "Publicación completada correctamente.");
+
                 return 0;
             }
             catch (Exception ex)
             {
                 Console.WriteLine("ERROR:");
-                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex);
+
                 return 1;
             }
         }
@@ -37,65 +40,76 @@ namespace AzorSuite.Publisher
             string projectRoot = GetProjectRoot();
 
             string inventorProject =
-                Path.Combine(projectRoot, "AzorSuite.Inventor2017");
+                Path.Combine(
+                    projectRoot,
+                    "AzorSuite.Inventor2017");
 
             string uiProject =
-                Path.Combine(projectRoot, "AzorSuite.UI");
+                Path.Combine(
+                    projectRoot,
+                    "AzorSuite.UI");
 
             string updaterProject =
-                Path.Combine(projectRoot, "AzorSuite.Updater");
+                Path.Combine(
+                    projectRoot,
+                    "AzorSuite.Updater");
+
+            string bootstrapperProject =
+                Path.Combine(
+                    projectRoot,
+                    "AzorSuite.Bootstrapper");
 
             string inventorOutput =
                 Path.Combine(
                     inventorProject,
                     "bin",
                     "x64",
-                    "Release"
-                );
+                    "Release");
 
             string uiOutput =
                 Path.Combine(
                     uiProject,
                     "bin",
                     "x64",
-                    "Release"
-                );
+                    "Release");
 
             string updaterOutput =
                 Path.Combine(
                     updaterProject,
                     "bin",
                     "x64",
-                    "Release"
-                );
+                    "Release");
+
+            string bootstrapperOutput =
+                Path.Combine(
+                    bootstrapperProject,
+                    "bin",
+                    "x64",
+                    "Release");
+
+            // ========================================================
+            // VALIDAR COMPILADOS
+            // ========================================================
 
             ValidateFile(
                 Path.Combine(
                     inventorOutput,
-                    "AzorSuite.Inventor2017.dll"
-                )
-            );
+                    "AzorSuite.Inventor2017.dll"));
 
             ValidateFile(
                 Path.Combine(
                     uiOutput,
-                    "AzorSuite.UI.dll"
-                )
-            );
+                    "AzorSuite.UI.dll"));
 
             ValidateFile(
                 Path.Combine(
                     uiOutput,
-                    "Microsoft.Web.WebView2.Core.dll"
-                )
-            );
+                    "Microsoft.Web.WebView2.Core.dll"));
 
             ValidateFile(
                 Path.Combine(
                     uiOutput,
-                    "Microsoft.Web.WebView2.WinForms.dll"
-                )
-            );
+                    "Microsoft.Web.WebView2.WinForms.dll"));
 
             ValidateFile(
                 Path.Combine(
@@ -103,71 +117,93 @@ namespace AzorSuite.Publisher
                     "runtimes",
                     "win-x64",
                     "native",
-                    "WebView2Loader.dll"
-                )
-            );
+                    "WebView2Loader.dll"));
 
             ValidateFile(
                 Path.Combine(
                     updaterOutput,
-                    "AzorSuite.Updater.exe"
-                )
-            );
+                    "AzorSuite.Updater.exe"));
 
-            string serverVersionDirectory =
+            ValidateFile(
+                Path.Combine(
+                    bootstrapperOutput,
+                    "AzorSuite.Bootstrapper.exe"));
+
+            // ========================================================
+            // DIRECTORIOS DEL SERVIDOR
+            // ========================================================
+
+            string productServerDirectory =
                 Path.Combine(
                     ServerRoot,
-                    ProductName,
-                    Version
-                );
+                    ProductName);
+
+            string versionDirectory =
+                Path.Combine(
+                    productServerDirectory,
+                    Version);
 
             string packageDirectory =
                 Path.Combine(
-                    serverVersionDirectory,
-                    "Package"
-                );
+                    versionDirectory,
+                    "Package");
 
-            Directory.CreateDirectory(packageDirectory);
+            string serverBootstrapperDirectory =
+                Path.Combine(
+                    ServerRoot,
+                    "Bootstrapper");
 
-            // --------------------------------------------------------
-            // Copiar Add-in
-            // --------------------------------------------------------
+            Directory.CreateDirectory(
+                packageDirectory);
+
+            Directory.CreateDirectory(
+                serverBootstrapperDirectory);
+
+            // ========================================================
+            // LIMPIAR VERSION ANTERIOR SI EXISTE
+            // ========================================================
+
+            if (Directory.Exists(versionDirectory))
+            {
+                Directory.Delete(
+                    versionDirectory,
+                    true);
+
+                Directory.CreateDirectory(
+                    packageDirectory);
+            }
+
+            // ========================================================
+            // COPIAR ADD-IN
+            // ========================================================
 
             CopyFile(
                 Path.Combine(
                     inventorOutput,
-                    "AzorSuite.Inventor2017.dll"
-                ),
-                packageDirectory
-            );
+                    "AzorSuite.Inventor2017.dll"),
+                packageDirectory);
 
-            // --------------------------------------------------------
-            // Copiar UI
-            // --------------------------------------------------------
+            // ========================================================
+            // COPIAR UI
+            // ========================================================
 
             CopyFile(
                 Path.Combine(
                     uiOutput,
-                    "AzorSuite.UI.dll"
-                ),
-                packageDirectory
-            );
+                    "AzorSuite.UI.dll"),
+                packageDirectory);
 
             CopyFile(
                 Path.Combine(
                     uiOutput,
-                    "Microsoft.Web.WebView2.Core.dll"
-                ),
-                packageDirectory
-            );
+                    "Microsoft.Web.WebView2.Core.dll"),
+                packageDirectory);
 
             CopyFile(
                 Path.Combine(
                     uiOutput,
-                    "Microsoft.Web.WebView2.WinForms.dll"
-                ),
-                packageDirectory
-            );
+                    "Microsoft.Web.WebView2.WinForms.dll"),
+                packageDirectory);
 
             CopyFile(
                 Path.Combine(
@@ -175,71 +211,93 @@ namespace AzorSuite.Publisher
                     "runtimes",
                     "win-x64",
                     "native",
-                    "WebView2Loader.dll"
-                ),
-                packageDirectory
-            );
+                    "WebView2Loader.dll"),
+                packageDirectory);
 
-            // --------------------------------------------------------
-            // Copiar Updater
-            // --------------------------------------------------------
+            // ========================================================
+            // COPIAR UPDATER
+            // ========================================================
 
             string updaterDirectory =
                 Path.Combine(
                     packageDirectory,
-                    "Updater"
-                );
+                    "Updater");
 
             Directory.CreateDirectory(
-                updaterDirectory
-            );
+                updaterDirectory);
 
             CopyFile(
                 Path.Combine(
                     updaterOutput,
-                    "AzorSuite.Updater.exe"
-                ),
-                updaterDirectory
-            );
+                    "AzorSuite.Updater.exe"),
+                updaterDirectory);
 
-            // --------------------------------------------------------
-            // Crear ZIP
-            // --------------------------------------------------------
+            // ========================================================
+            // COPIAR BOOTSTRAPPER DENTRO DEL PAQUETE
+            // ========================================================
+
+            string bootstrapperPackageDirectory =
+                Path.Combine(
+                    packageDirectory,
+                    "Bootstrapper");
+
+            Directory.CreateDirectory(
+                bootstrapperPackageDirectory);
+
+            CopyFile(
+                Path.Combine(
+                    bootstrapperOutput,
+                    "AzorSuite.Bootstrapper.exe"),
+                bootstrapperPackageDirectory);
+
+            // ========================================================
+            // PUBLICAR BOOTSTRAPPER ACTUAL EN SERVIDOR
+            // ========================================================
+
+            CopyFile(
+                Path.Combine(
+                    bootstrapperOutput,
+                    "AzorSuite.Bootstrapper.exe"),
+                serverBootstrapperDirectory);
+
+            // ========================================================
+            // CREAR ZIP
+            // ========================================================
 
             string zipPath =
                 Path.Combine(
-                    ServerRoot,
-                    ProductName,
+                    productServerDirectory,
                     "AzorSuite-Inventor2017-" +
                     Version +
-                    ".zip"
-                );
+                    ".zip");
 
             if (File.Exists(zipPath))
+            {
                 File.Delete(zipPath);
+            }
 
             ZipFile.CreateFromDirectory(
                 packageDirectory,
                 zipPath,
                 CompressionLevel.Optimal,
-                false
-            );
+                false);
 
-            // --------------------------------------------------------
-            // Actualizar manifest
-            // --------------------------------------------------------
+            // ========================================================
+            // ACTUALIZAR MANIFEST
+            // ========================================================
 
-            UpdateManifest(
-                zipPath
-            );
+            UpdateManifest(zipPath);
 
             Console.WriteLine(
-                "Versión publicada: " + Version
-            );
+                "Versión publicada: " +
+                Version);
 
             Console.WriteLine(
-                "Servidor: " + ServerRoot
-            );
+                "Servidor: " +
+                ServerRoot);
+
+            Console.WriteLine(
+                "Bootstrapper publicado correctamente.");
         }
 
         private static void UpdateManifest(
@@ -248,27 +306,25 @@ namespace AzorSuite.Publisher
             string manifestPath =
                 Path.Combine(
                     ServerRoot,
-                    "manifest.xml"
-                );
+                    "manifest.xml");
 
             XDocument document;
 
             if (File.Exists(manifestPath))
             {
-                document = XDocument.Load(
-                    manifestPath
-                );
+                document =
+                    XDocument.Load(manifestPath);
             }
             else
             {
-                document = new XDocument(
-                    new XElement(
-                        "AzorSuite"
-                    )
-                );
+                document =
+                    new XDocument(
+                        new XElement(
+                            "AzorSuite"));
             }
 
-            XElement root = document.Root;
+            XElement root =
+                document.Root;
 
             XElement product =
                 root.Elements("Product")
@@ -277,46 +333,39 @@ namespace AzorSuite.Publisher
                             string.Equals(
                                 (string)x.Attribute("Name"),
                                 ProductName,
-                                StringComparison.OrdinalIgnoreCase
-                            )
-                    );
+                                StringComparison.OrdinalIgnoreCase));
 
             if (product == null)
             {
-                product = new XElement(
-                    "Product"
-                );
+                product =
+                    new XElement(
+                        "Product");
 
                 root.Add(product);
             }
 
             product.SetAttributeValue(
                 "Name",
-                ProductName
-            );
+                ProductName);
 
             product.SetAttributeValue(
                 "Version",
-                Version
-            );
+                Version);
 
             string relativePackage =
                 Path.Combine(
                     ProductName,
-                    Path.GetFileName(zipPath)
-                ).Replace(
+                    Path.GetFileName(zipPath))
+                .Replace(
                     Path.DirectorySeparatorChar,
-                    '\\'
-                );
+                    '\\');
 
             product.SetAttributeValue(
                 "Package",
-                relativePackage
-            );
+                relativePackage);
 
             document.Save(
-                manifestPath
-            );
+                manifestPath);
         }
 
         private static void ValidateFile(
@@ -326,8 +375,7 @@ namespace AzorSuite.Publisher
             {
                 throw new FileNotFoundException(
                     "No se encontró el archivo requerido:",
-                    path
-                );
+                    path);
             }
         }
 
@@ -336,25 +384,21 @@ namespace AzorSuite.Publisher
             string destinationDirectory)
         {
             Directory.CreateDirectory(
-                destinationDirectory
-            );
+                destinationDirectory);
 
             File.Copy(
                 source,
                 Path.Combine(
                     destinationDirectory,
-                    Path.GetFileName(source)
-                ),
-                true
-            );
+                    Path.GetFileName(source)),
+                true);
         }
 
         private static string GetProjectRoot()
         {
             DirectoryInfo directory =
                 new DirectoryInfo(
-                    AppDomain.CurrentDomain.BaseDirectory
-                );
+                    AppDomain.CurrentDomain.BaseDirectory);
 
             // Release
             directory = directory.Parent;
