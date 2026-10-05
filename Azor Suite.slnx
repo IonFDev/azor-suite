@@ -16,14 +16,9 @@
     <BuildDependency Project="AzorSuite.Bootstrapper/AzorSuite.Bootstrapper.csproj" />
     <BuildDependency Project="AzorSuite.Inventor2017/AzorSuite.Inventor2017.csproj" />
     <BuildDependency Project="AzorSuite.UI/AzorSuite.UI.csproj" />
-    <BuildDependency Project="AzorSuite.Updater/AzorSuite.Updater.csproj" />
     <Platform Solution="Release|x64" Project="x64" />
   </Project>
   <Project Path="AzorSuite.UI/AzorSuite.UI.csproj" Id="5bae9810-a007-4997-bc43-d394adc44672">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
-  <Project Path="AzorSuite.Updater/AzorSuite.Updater.csproj" Id="bbef5ca1-8d30-449e-aac7-8cdf64eb81a6">
-    <Platform Solution="Release|x64" Project="x64" />
-  </Project>
-  <Project Path="AzorSuite.WebView2Test/AzorSuite.WebView2Test.csproj" Id="61e24249-6828-4d36-b5e8-c2a986538ac9" />
 </Solution>

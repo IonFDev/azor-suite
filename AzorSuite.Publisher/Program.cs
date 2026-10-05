@@ -8,7 +8,7 @@ namespace AzorSuite.Publisher
 {
     internal class Program
     {
-        private const string Version = "1.0.6";
+        private const string Version = "1.0.10";
 
         private const string ServerRoot =
             @"\\10.19.20.240\tecnico\Proyectos\MODELOS\_MODELO HOTEL\XX AZOR SUITE (NO MODIFICAR)";

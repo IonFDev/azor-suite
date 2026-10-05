@@ -1,11 +1,9 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Diagnostics;
+﻿using System;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Xml.Linq;
 using System.Threading;
+using System.Xml.Linq;
 
 namespace AzorSuite.Bootstrapper
 {
@@ -16,34 +14,11 @@ namespace AzorSuite.Bootstrapper
 
         private const string ProductName = "Inventor2017";
 
-        private const string RunKey =
-            @"Software\Microsoft\Windows\CurrentVersion\Run";
-
         private static string LocalRoot =>
             Path.Combine(
                 Environment.GetFolderPath(
                     Environment.SpecialFolder.LocalApplicationData),
                 "AzorSuite");
-
-        private static string LocalBootstrapperDirectory =>
-            Path.Combine(
-                LocalRoot,
-                "Bootstrapper");
-
-        private static string LocalBootstrapperPath =>
-            Path.Combine(
-                LocalBootstrapperDirectory,
-                "AzorSuite.Bootstrapper.exe");
-
-        private static string LocalUpdaterDirectory =>
-            Path.Combine(
-                LocalRoot,
-                "Updater");
-
-        private static string LocalUpdaterPath =>
-            Path.Combine(
-                LocalUpdaterDirectory,
-                "AzorSuite.Updater.exe");
 
         private static string LocalInventorDirectory =>
             Path.Combine(
@@ -90,13 +65,11 @@ namespace AzorSuite.Bootstrapper
                 try
                 {
                     InstallOrUpdate();
-
                     return 0;
                 }
                 catch (Exception ex)
                 {
                     WriteLog(ex);
-
                     return 1;
                 }
             }
@@ -104,32 +77,10 @@ namespace AzorSuite.Bootstrapper
 
         private static void InstallOrUpdate()
         {
-            // --------------------------------------------------------
-            // Crear estructura local
-            // --------------------------------------------------------
-
             Directory.CreateDirectory(LocalRoot);
-            Directory.CreateDirectory(LocalBootstrapperDirectory);
-            Directory.CreateDirectory(LocalUpdaterDirectory);
             Directory.CreateDirectory(LocalInventorDirectory);
             Directory.CreateDirectory(LocalVersionsDirectory);
             Directory.CreateDirectory(AddinDirectory);
-
-            // --------------------------------------------------------
-            // Instalar el Bootstrapper localmente
-            // --------------------------------------------------------
-
-            InstallBootstrapperLocally();
-
-            // --------------------------------------------------------
-            // Registrar ejecución automática de Windows
-            // --------------------------------------------------------
-
-            RegisterStartup();
-
-            // --------------------------------------------------------
-            // Leer manifest del servidor
-            // --------------------------------------------------------
 
             string manifestPath =
                 Path.Combine(
@@ -176,21 +127,11 @@ namespace AzorSuite.Bootstrapper
             if (!File.Exists(packagePath))
                 return;
 
-            // --------------------------------------------------------
-            // Versión actualmente instalada
-            // --------------------------------------------------------
-
             Version localVersion =
                 ReadLocalVersion();
 
             if (serverVersion <= localVersion)
-            {
                 return;
-            }
-
-            // --------------------------------------------------------
-            // Instalar nueva versión
-            // --------------------------------------------------------
 
             InstallVersion(
                 serverVersion,
@@ -217,10 +158,6 @@ namespace AzorSuite.Bootstrapper
 
             try
             {
-                // ----------------------------------------------------
-                // Copiar ZIP desde servidor
-                // ----------------------------------------------------
-
                 string localZip =
                     Path.Combine(
                         tempDirectory,
@@ -230,10 +167,6 @@ namespace AzorSuite.Bootstrapper
                     packagePath,
                     localZip,
                     true);
-
-                // ----------------------------------------------------
-                // Crear carpeta de versión
-                // ----------------------------------------------------
 
                 if (Directory.Exists(versionDirectory))
                 {
@@ -245,17 +178,9 @@ namespace AzorSuite.Bootstrapper
                 Directory.CreateDirectory(
                     versionDirectory);
 
-                // ----------------------------------------------------
-                // Extraer paquete
-                // ----------------------------------------------------
-
                 ZipFile.ExtractToDirectory(
                     localZip,
                     versionDirectory);
-
-                // ----------------------------------------------------
-                // Validar Add-in
-                // ----------------------------------------------------
 
                 string addinDll =
                     Path.Combine(
@@ -282,41 +207,14 @@ namespace AzorSuite.Bootstrapper
                         versionDirectory,
                         "WebView2Loader.dll");
 
-                string updaterSource =
-                    Path.Combine(
-                        versionDirectory,
-                        "Updater",
-                        "AzorSuite.Updater.exe");
-
                 ValidateFile(addinDll);
                 ValidateFile(uiDll);
                 ValidateFile(webViewCoreDll);
                 ValidateFile(webViewWinFormsDll);
                 ValidateFile(webViewLoaderDll);
-                ValidateFile(updaterSource);
-
-                // ----------------------------------------------------
-                // Instalar Updater
-                // ----------------------------------------------------
-
-                Directory.CreateDirectory(
-                    LocalUpdaterDirectory);
-
-                File.Copy(
-                    updaterSource,
-                    LocalUpdaterPath,
-                    true);
-
-                // ----------------------------------------------------
-                // Crear .addin de Inventor
-                // ----------------------------------------------------
 
                 CreateAddinFile(
                     addinDll);
-
-                // ----------------------------------------------------
-                // Guardar versión instalada
-                // ----------------------------------------------------
 
                 File.WriteAllText(
                     LocalVersionFile,
@@ -381,51 +279,6 @@ $@"<?xml version=""1.0"" encoding=""utf-8""?>
             File.Delete(tempPath);
         }
 
-        private static void InstallBootstrapperLocally()
-        {
-            string currentExecutable =
-                Process.GetCurrentProcess().MainModule.FileName;
-
-            if (string.IsNullOrWhiteSpace(
-                    currentExecutable))
-            {
-                return;
-            }
-
-            string currentFullPath =
-                Path.GetFullPath(currentExecutable);
-
-            string localFullPath =
-                Path.GetFullPath(LocalBootstrapperPath);
-
-            if (string.Equals(
-                    currentFullPath,
-                    localFullPath,
-                    StringComparison.OrdinalIgnoreCase))
-            {
-                return;
-            }
-
-            Directory.CreateDirectory(
-                LocalBootstrapperDirectory);
-
-            File.Copy(
-                currentFullPath,
-                localFullPath,
-                true);
-        }
-
-        private static void RegisterStartup()
-        {
-            using (RegistryKey key =
-                Registry.CurrentUser.CreateSubKey(RunKey))
-            {
-                key.SetValue(
-                    "AzorSuite",
-                    "\"" + LocalBootstrapperPath + "\"");
-            }
-        }
-
         private static Version ReadLocalVersion()
         {
             if (!File.Exists(
@@ -448,12 +301,6 @@ $@"<?xml version=""1.0"" encoding=""utf-8""?>
 
             return new Version(
                 0, 0, 0);
-        }
-
-        private static bool IsInventorRunning()
-        {
-            return Process.GetProcessesByName(
-                "Inventor").Length > 0;
         }
 
         private static void ValidateFile(

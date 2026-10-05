@@ -23,14 +23,22 @@ namespace AzorSuite.Inventor2017
             ControlDefinitions controlDefinitions =
                 _inventorApplication.CommandManager.ControlDefinitions;
 
-            _azorSuiteButton = controlDefinitions.AddButtonDefinition(
-                "Azor Suite",
-                "AzorSuite_MainButton",
-                CommandTypesEnum.kNonShapeEditCmdType,
-                clientId,
-                "Abrir Azor Suite",
-                "Abrir Azor Suite"
-            );
+            stdole.IPictureDisp smallIcon =
+                PictureConverter.ImageToPictureDisp(Properties.Resources.AzorSuite16);
+
+                stdole.IPictureDisp largeIcon =
+                    PictureConverter.ImageToPictureDisp(Properties.Resources.AzorSuite32);
+
+                _azorSuiteButton = controlDefinitions.AddButtonDefinition(
+                    "Azor Suite",
+                    "AzorSuite_MainButton",
+                    CommandTypesEnum.kNonShapeEditCmdType,
+                    clientId,
+                    "Abrir la interfaz de Azor Suite",
+                    "Abrir Azor Suite",
+                    smallIcon,
+                    largeIcon
+                );
 
             _azorSuiteButtonHandler =
                 new ButtonDefinitionSink_OnExecuteEventHandler(
@@ -96,6 +104,7 @@ namespace AzorSuite.Inventor2017
                 {
                     mainPanel.CommandControls.AddButton(
                         _azorSuiteButton,
+                        true,
                         true
                     );
                 }
@@ -108,20 +117,7 @@ namespace AzorSuite.Inventor2017
 
         private void AzorSuiteButton_OnExecute(NameValueMap Context)
         {
-            string uiPath =
-                @"C:\Users\Usuario\Desktop\Programas\Azor Suite\AzorSuite.WebView2Test\bin\Release\AzorSuite.WebView2Test.exe";
-
-            if (!System.IO.File.Exists(uiPath))
-            {
-                System.Windows.Forms.MessageBox.Show(
-                    "No se encuentra:\n" + uiPath,
-                    "Azor Suite"
-                );
-
-                return;
-            }
-
-            System.Diagnostics.Process.Start(uiPath);
+            AzorSuite.UI.AzorSuiteForm.ShowForm();
         }
 
         public void Deactivate()
