@@ -25,4 +25,5 @@
   <Project Path="AzorSuite.Updater/AzorSuite.Updater.csproj" Id="bbef5ca1-8d30-449e-aac7-8cdf64eb81a6">
     <Platform Solution="Release|x64" Project="x64" />
   </Project>
+  <Project Path="AzorSuite.WebView2Test/AzorSuite.WebView2Test.csproj" Id="61e24249-6828-4d36-b5e8-c2a986538ac9" />
 </Solution>

@@ -2,6 +2,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace AzorSuite.UI
 {
@@ -31,7 +32,23 @@ namespace AzorSuite.UI
         {
             try
             {
-                await _webView.EnsureCoreWebView2Async();
+                string userDataFolder = System.IO.Path.Combine(
+                    Environment.GetFolderPath(
+                        Environment.SpecialFolder.LocalApplicationData),
+                    "AzorSuite",
+                    "WebView2",
+                    "Inventor2017"
+                );
+
+                System.IO.Directory.CreateDirectory(userDataFolder);
+
+                var environment =
+                    await Microsoft.Web.WebView2.Core.CoreWebView2Environment.CreateAsync(
+                        null,
+                        userDataFolder
+                    );
+
+                await _webView.EnsureCoreWebView2Async(environment);
 
                 _webView.NavigateToString(@"
 <!DOCTYPE html>
@@ -113,50 +130,32 @@ namespace AzorSuite.UI
 
             <div class='card'>
                 <h2>Planos</h2>
-                <p>
-                    Herramientas para trabajar con planos,
-                    dimensiones y documentación.
-                </p>
+                <p>Herramientas para trabajar con planos, dimensiones y documentación.</p>
             </div>
 
             <div class='card'>
                 <h2>Piezas</h2>
-                <p>
-                    Automatización y consulta de información
-                    de piezas.
-                </p>
+                <p>Automatización y consulta de información de piezas.</p>
             </div>
 
             <div class='card'>
                 <h2>Ensamblajes</h2>
-                <p>
-                    Consulta y automatización de ensamblajes
-                    de Inventor.
-                </p>
+                <p>Consulta y automatización de ensamblajes de Inventor.</p>
             </div>
 
             <div class='card'>
                 <h2>Listados</h2>
-                <p>
-                    Generación de listados y extracción
-                    de información.
-                </p>
+                <p>Generación de listados y extracción de información.</p>
             </div>
 
             <div class='card'>
                 <h2>Herramientas</h2>
-                <p>
-                    Automatizaciones y utilidades para
-                    el trabajo diario.
-                </p>
+                <p>Automatizaciones y utilidades para el trabajo diario.</p>
             </div>
 
             <div class='card'>
                 <h2>IA</h2>
-                <p>
-                    Consulta de información mediante
-                    lenguaje natural.
-                </p>
+                <p>Consulta de información mediante lenguaje natural.</p>
             </div>
 
         </div>
@@ -165,11 +164,10 @@ namespace AzorSuite.UI
 
 </body>
 </html>");
-            }
-            catch (Exception ex)
+            } catch (Exception ex)
             {
                 MessageBox.Show(
-                    ex.Message,
+                    ex.ToString(),
                     "Error iniciando Azor Suite",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
@@ -177,25 +175,43 @@ namespace AzorSuite.UI
             }
         }
 
+        private static Thread _uiThread;
         private static AzorSuiteForm _instance;
+        private static readonly object _lock = new object();
 
         public static void ShowForm()
         {
-            if (_instance == null || _instance.IsDisposed)
+            lock (_lock)
             {
-                _instance = new AzorSuiteForm();
-                _instance.FormClosed += (s, e) =>
+                if (_instance != null && !_instance.IsDisposed)
                 {
-                    _instance.Dispose();
-                    _instance = null;
-                };
+                    _instance.BeginInvoke(
+                        new Action(() =>
+                        {
+                            _instance.BringToFront();
+                            _instance.Activate();
+                        })
+                    );
 
-                _instance.Show();
-            }
-            else
-            {
-                _instance.BringToFront();
-                _instance.Activate();
+                    return;
+                }
+
+                _uiThread = new Thread(() =>
+                {
+                    _instance = new AzorSuiteForm();
+
+                    _instance.FormClosed += (sender, e) =>
+                    {
+                        _instance = null;
+                        Application.ExitThread();
+                    };
+
+                    Application.Run(_instance);
+                });
+
+                _uiThread.SetApartmentState(ApartmentState.STA);
+                _uiThread.IsBackground = true;
+                _uiThread.Start();
             }
         }
     }

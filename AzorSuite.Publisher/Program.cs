@@ -8,7 +8,7 @@ namespace AzorSuite.Publisher
 {
     internal class Program
     {
-        private const string Version = "1.0.1";
+        private const string Version = "1.0.6";
 
         private const string ServerRoot =
             @"\\10.19.20.240\tecnico\Proyectos\MODELOS\_MODELO HOTEL\XX AZOR SUITE (NO MODIFICAR)";
@@ -49,11 +49,6 @@ namespace AzorSuite.Publisher
                     projectRoot,
                     "AzorSuite.UI");
 
-            string updaterProject =
-                Path.Combine(
-                    projectRoot,
-                    "AzorSuite.Updater");
-
             string bootstrapperProject =
                 Path.Combine(
                     projectRoot,
@@ -69,13 +64,6 @@ namespace AzorSuite.Publisher
             string uiOutput =
                 Path.Combine(
                     uiProject,
-                    "bin",
-                    "x64",
-                    "Release");
-
-            string updaterOutput =
-                Path.Combine(
-                    updaterProject,
                     "bin",
                     "x64",
                     "Release");
@@ -118,11 +106,6 @@ namespace AzorSuite.Publisher
                     "win-x64",
                     "native",
                     "WebView2Loader.dll"));
-
-            ValidateFile(
-                Path.Combine(
-                    updaterOutput,
-                    "AzorSuite.Updater.exe"));
 
             ValidateFile(
                 Path.Combine(
@@ -215,29 +198,11 @@ namespace AzorSuite.Publisher
                 packageDirectory);
 
             // ========================================================
-            // COPIAR UPDATER
-            // ========================================================
-
-            string updaterDirectory =
-                Path.Combine(
-                    packageDirectory,
-                    "Updater");
-
-            Directory.CreateDirectory(
-                updaterDirectory);
-
-            CopyFile(
-                Path.Combine(
-                    updaterOutput,
-                    "AzorSuite.Updater.exe"),
-                updaterDirectory);
-
-            // ========================================================
             // COPIAR BOOTSTRAPPER DENTRO DEL PAQUETE
             // ========================================================
 
             string bootstrapperPackageDirectory =
-                Path.Combine(
+                Path.Combine(   
                     packageDirectory,
                     "Bootstrapper");
 

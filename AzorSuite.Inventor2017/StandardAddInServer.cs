@@ -2,8 +2,6 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using System.Diagnostics;
-using System.IO;
 
 namespace AzorSuite.Inventor2017
 {
@@ -19,8 +17,6 @@ namespace AzorSuite.Inventor2017
         public void Activate(ApplicationAddInSite AddInSiteObject, bool FirstTime)
         {
             _inventorApplication = AddInSiteObject.Application;
-
-            StartUpdater();
 
             string clientId = "{8F5E4D7A-2B61-4C9E-9A37-6D2F8B14C501}";
 
@@ -112,7 +108,20 @@ namespace AzorSuite.Inventor2017
 
         private void AzorSuiteButton_OnExecute(NameValueMap Context)
         {
-            AzorSuite.UI.AzorSuiteForm.ShowForm();
+            string uiPath =
+                @"C:\Users\Usuario\Desktop\Programas\Azor Suite\AzorSuite.WebView2Test\bin\Release\AzorSuite.WebView2Test.exe";
+
+            if (!System.IO.File.Exists(uiPath))
+            {
+                System.Windows.Forms.MessageBox.Show(
+                    "No se encuentra:\n" + uiPath,
+                    "Azor Suite"
+                );
+
+                return;
+            }
+
+            System.Diagnostics.Process.Start(uiPath);
         }
 
         public void Deactivate()
@@ -138,49 +147,6 @@ namespace AzorSuite.Inventor2017
         public object Automation
         {
             get { return null; }
-        }
-
-        private void StartUpdater()
-        {
-            try
-            {
-                string updaterPath = System.IO.Path.Combine(
-                    System.Environment.GetFolderPath(
-                        System.Environment.SpecialFolder.LocalApplicationData),
-                    "AzorSuite",
-                    "Updater",
-                    "AzorSuite.Updater.exe"
-                );
-
-                if (!System.IO.File.Exists(updaterPath))
-                    return;
-
-                string addinPath = System.IO.Path.Combine(
-                    System.Environment.GetFolderPath(
-                        System.Environment.SpecialFolder.ApplicationData),
-                    "Autodesk",
-                    "Inventor 2017",
-                    "Addins",
-                    "AzorSuite.Inventor2017.addin"
-                );
-
-                string arguments =
-                    "/addin:\"" + addinPath + "\" " +
-                    "/pid:" + Process.GetCurrentProcess().Id;
-
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = updaterPath,
-                    Arguments = arguments,
-                    CreateNoWindow = true,
-                    WindowStyle = ProcessWindowStyle.Hidden,
-                    UseShellExecute = false
-                });
-            }
-            catch
-            {
-                // El updater nunca debe impedir que Inventor cargue Azor Suite.
-            }
         }
     }
 }

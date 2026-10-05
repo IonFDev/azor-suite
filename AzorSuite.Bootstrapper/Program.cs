@@ -5,6 +5,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Xml.Linq;
+using System.Threading;
 
 namespace AzorSuite.Bootstrapper
 {
@@ -74,29 +75,35 @@ namespace AzorSuite.Bootstrapper
 
         static int Main(string[] args)
         {
-            try
-            {
-                InstallOrUpdate();
+            bool createdNew;
 
-                return 0;
-            }
-            catch (Exception ex)
+            using (Mutex mutex = new Mutex(
+                true,
+                @"Local\AzorSuite.Bootstrapper",
+                out createdNew))
             {
-                WriteLog(ex);
+                if (!createdNew)
+                {
+                    return 0;
+                }
 
-                return 1;
+                try
+                {
+                    InstallOrUpdate();
+
+                    return 0;
+                }
+                catch (Exception ex)
+                {
+                    WriteLog(ex);
+
+                    return 1;
+                }
             }
         }
 
         private static void InstallOrUpdate()
         {
-            // --------------------------------------------------------
-            // No tocar una instalación mientras Inventor está abierto
-            // --------------------------------------------------------
-
-            if (IsInventorRunning())
-                return;
-
             // --------------------------------------------------------
             // Crear estructura local
             // --------------------------------------------------------
