@@ -85,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="UI\css\app.css" />
+    <Content Include="UI\index - Copia.html" />
     <Content Include="UI\index.html" />
     <Content Include="UI\js\app.js" />
   </ItemGroup>

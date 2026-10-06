@@ -1,19 +1,40 @@
 ﻿const API_URL = 'http://localhost:8080/api';
 
-async function testApi() {
-    const response = await fetch(`${API_URL}/test`);
+const loginForm = document.getElementById('loginForm');
+const result = document.getElementById('result');
 
-    if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
+loginForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    try {
+        const response = await fetch(`${API_URL}/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                username,
+                password
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            result.textContent = data.message;
+            return;
+        }
+
+        result.textContent =
+            `Bienvenido, ${data.user.name}. Token recibido.`;
+
+        console.log(data);
+    } catch (error) {
+        result.textContent =
+            `Error conectando con la API: ${error.message}`;
     }
-
-    const data = await response.json();
-
-    document.getElementById('result').textContent =
-        data.application;
-}
-
-testApi().catch(error => {
-    document.getElementById('result').textContent =
-        `Error: ${error.message}`;
 });
