@@ -3,13 +3,19 @@
 const loginForm = document.getElementById('loginForm');
 const result = document.getElementById('result');
 
+// Check if the user is already logged in
+if (localStorage.getItem('token')) {
+    window.location.href = '/html/dashboard/index.html';
+}
+
 loginForm.addEventListener('submit', async (event) => {
     event.preventDefault();
 
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
-
+    
     try {
+        // Build the request to the API for login
         const response = await fetch(`${API_URL}/login`, {
             method: 'POST',
             headers: {
@@ -28,11 +34,12 @@ loginForm.addEventListener('submit', async (event) => {
             result.textContent = data.message;
             return;
         }
+        // Push the token an user data to localStorage and redirect to dashboard
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
 
-        result.textContent =
-            `Bienvenido, ${data.user.name}. Token recibido.`;
+        window.location.href = '/html/dashboard/index.html';
 
-        console.log(data);
     } catch (error) {
         result.textContent =
             `Error conectando con la API: ${error.message}`;

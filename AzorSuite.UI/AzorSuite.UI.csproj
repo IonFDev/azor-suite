@@ -84,10 +84,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="UI\css\app.css" />
+    <Content Include="UI\css\auth\app.css" />
     <Content Include="UI\css\dashboard\app.css" />
     <Content Include="UI\html\dashboard\index.html" />
-    <Content Include="UI\index.html" />
-    <Content Include="UI\js\app.js" />
+    <Content Include="UI\html\auth\index.html" />
+    <Content Include="UI\html\lists\index.html" />
+    <Content Include="UI\html\settings\index.html" />
+    <Content Include="UI\js\auth\app.js" />
+    <Content Include="UI\js\dashboard\app.js" />
+    <Content Include="UI\js\lists\app.js" />
+    <Content Include="UI\js\settings\app.js" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AzorSuiteForm.resx">
@@ -95,10 +102,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="UI\html\auth\" />
-    <Folder Include="UI\html\configurations\" />
     <Folder Include="UI\html\errors\" />
-    <Folder Include="UI\html\lists\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Web.WebView2.1.0.4258.31\build\Microsoft.Web.WebView2.targets" Condition="Exists('..\packages\Microsoft.Web.WebView2.1.0.4258.31\build\Microsoft.Web.WebView2.targets')" />

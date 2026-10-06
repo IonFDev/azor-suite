@@ -65,7 +65,7 @@ namespace AzorSuite.UI
                 );
 
                 _webView.CoreWebView2.Navigate(
-                    "https://azor-suite/index.html"
+                    "https://azor-suite/html/auth/index.html"
                 );
 
             } 
