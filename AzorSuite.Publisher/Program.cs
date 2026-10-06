@@ -8,7 +8,7 @@ namespace AzorSuite.Publisher
 {
     internal class Program
     {
-        private const string Version = "1.0.10";
+        private const string Version = "1.1.2";
 
         private const string ServerRoot =
             @"\\10.19.20.240\tecnico\Proyectos\MODELOS\_MODELO HOTEL\XX AZOR SUITE (NO MODIFICAR)";
@@ -197,6 +197,23 @@ namespace AzorSuite.Publisher
                     "WebView2Loader.dll"),
                 packageDirectory);
 
+            string uiSourceDirectory =
+            Path.Combine(
+                uiProject,
+                "UI"
+            );
+
+            string uiPackageDirectory =
+                Path.Combine(
+                    packageDirectory,
+                    "UI"
+                );
+
+            CopyDirectory(
+                uiSourceDirectory,
+                uiPackageDirectory
+            );
+
             // ========================================================
             // COPIAR BOOTSTRAPPER DENTRO DEL PAQUETE
             // ========================================================
@@ -379,6 +396,38 @@ namespace AzorSuite.Publisher
 
             // Azor Suite
             return directory.FullName;
+        }
+
+        private static void CopyDirectory(
+        string sourceDirectory,
+        string destinationDirectory)
+        {
+            Directory.CreateDirectory(
+                destinationDirectory
+            );
+
+            foreach (string file in Directory.GetFiles(sourceDirectory))
+            {
+                File.Copy(
+                    file,
+                    Path.Combine(
+                        destinationDirectory,
+                        Path.GetFileName(file)
+                    ),
+                    true
+                );
+            }
+
+            foreach (string directory in Directory.GetDirectories(sourceDirectory))
+            {
+                CopyDirectory(
+                    directory,
+                    Path.Combine(
+                        destinationDirectory,
+                        Path.GetFileName(directory)
+                    )
+                );
+            }
         }
     }
 }

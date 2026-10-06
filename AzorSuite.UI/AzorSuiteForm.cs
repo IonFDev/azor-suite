@@ -3,6 +3,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Threading;
+using System.IO;
 
 namespace AzorSuite.UI
 {
@@ -50,68 +51,25 @@ namespace AzorSuite.UI
 
                 await _webView.EnsureCoreWebView2Async(environment);
 
-                _webView.NavigateToString(@"
-                    <!DOCTYPE html>
-                    <html lang='es'>
-                    <head>
-                        <meta charset='UTF-8'>
-                        <title>Azor Suite</title>
+                string uiDirectory = Path.Combine(
+                    Path.GetDirectoryName(
+                        typeof(AzorSuiteForm).Assembly.Location
+                    ),
+                    "UI"
+                );
 
-                        <style>
-                            body {
-                                margin: 0;
-                                font-family: Segoe UI, sans-serif;
-                                background: #f3f4f6;
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                                height: 100vh;
-                            }
+                _webView.CoreWebView2.SetVirtualHostNameToFolderMapping(
+                    "azor-suite",
+                    uiDirectory,
+                    Microsoft.Web.WebView2.Core.CoreWebView2HostResourceAccessKind.Allow
+                );
 
-                            .box {
-                                background: white;
-                                padding: 40px;
-                                border-radius: 12px;
-                                text-align: center;
-                                box-shadow: 0 4px 20px rgba(0,0,0,.12);
-                            }
+                _webView.CoreWebView2.Navigate(
+                    "https://azor-suite/index.html"
+                );
 
-                            h1 {
-                                margin: 0 0 10px;
-                            }
-
-                            p {
-                                color: #666;
-                            }
-
-                            button {
-                                margin-top: 20px;
-                                padding: 12px 24px;
-                                border: none;
-                                border-radius: 6px;
-                                background: #e67e22;
-                                color: white;
-                                font-size: 16px;
-                                cursor: pointer;
-                            }
-                        </style>
-                    </head>
-
-                    <body>
-
-                        <div class='box'>
-                            <h1>Azor Suite</h1>
-                            <p>WebView2 funciona correctamente.</p>
-
-                            <button onclick='alert(""Azor Suite funciona!"")'>
-                                Probar
-                            </button>
-                        </div>
-
-                    </body>
-                    </html>");
-
-            } catch (Exception ex)
+            } 
+            catch (Exception ex)
             {
                 MessageBox.Show(
                     ex.ToString(),
