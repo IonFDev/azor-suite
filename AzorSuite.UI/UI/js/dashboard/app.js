@@ -1,5 +1,5 @@
 ﻿const token = localStorage.getItem('token');
-const user = JSON.parse(localStorage.getItem('user'));
+const user = JSON.parse(localStorage.getItem('user'))
 
-const resultado = document.getElementById('result');
-resultado.textContent = `Bienvenido, ${user.name} ${user.surname}`;
+const userLogo = document.getElementById('log-out-logo');
+userLogo.textContent = user.name.charAt(0).toUpperCase() + user.surname.charAt(0).toUpperCase();

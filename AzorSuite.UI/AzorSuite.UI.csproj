@@ -89,8 +89,17 @@
     <Content Include="UI\css\dashboard\app.css" />
     <Content Include="UI\html\dashboard\index.html" />
     <Content Include="UI\html\auth\index.html" />
+    <Content Include="UI\html\errors\403-error.html" />
+    <Content Include="UI\html\errors\404-error.html" />
+    <Content Include="UI\html\errors\generic-error.html" />
+    <Content Include="UI\html\errors\500-error.html" />
     <Content Include="UI\html\lists\index.html" />
+    <Content Include="UI\html\settings\colors-settings\furnitures-colors.html" />
+    <Content Include="UI\html\settings\colors-settings\furnitures-set-colors.html" />
+    <Content Include="UI\html\settings\colors-settings\colors.html" />
     <Content Include="UI\html\settings\index.html" />
+    <Content Include="UI\html\settings\plans-parameters\create.html" />
+    <Content Include="UI\html\settings\plans-parameters\edit.html" />
     <Content Include="UI\js\auth\app.js" />
     <Content Include="UI\js\dashboard\app.js" />
     <Content Include="UI\js\lists\app.js" />
@@ -101,9 +110,7 @@
       <DependentUpon>AzorSuiteForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="UI\html\errors\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Web.WebView2.1.0.4258.31\build\Microsoft.Web.WebView2.targets" Condition="Exists('..\packages\Microsoft.Web.WebView2.1.0.4258.31\build\Microsoft.Web.WebView2.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
