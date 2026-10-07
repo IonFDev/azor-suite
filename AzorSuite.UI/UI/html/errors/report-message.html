@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Azor Suite | Enviar reporte de error</title>
+
+    <link rel="stylesheet" href="../../css/app.css" />
+    <link rel="stylesheet" href="../../css/errors/app.css" />
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">
+            <h1>Azor <span>Suite</span></h1>
+        </div>
+
+        <div class="log-out">
+            <div id="log-out-icon">
+                XX
+            </div>
+            <a href="../auth/index.html">Cerrar Sesión</a>
+        </div>
+    </header>
+
+    <main class="error-container">
+
+        <section class="error-card"> 
+
+            <div class="error-header"> 
+                <p class="error-eyebrow"> 
+                    Reporte de error 
+                </p> 
+                <h2>
+                    ¿Qué ha ocurrido?
+                </h2> 
+                <p>
+                    Describe brevemente el problema para que el administrador pueda revisarlo. 
+                </p> 
+            </div>
+                
+            <form id="reportErrorForm"> 
+                <div class="form-group"> 
+                    <label for="errorMessage">
+                        Mensaje 
+                    </label> 
+                    <textarea id="errorMessage" name="errorMessage" placeholder="Describe el error que has encontrado..." required></textarea> 
+                </div> 
+
+                <button type="submit" id="sendReportButton"> Enviar reporte </button> 
+            </form> 
+
+            <p id="result"></p> 
+
+        </section>
+
+    </main>
+
+    <script src="../../js/errors/app.js"></script>
+</body>
+</html>
