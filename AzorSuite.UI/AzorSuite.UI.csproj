@@ -88,6 +88,7 @@
     <Content Include="UI\css\auth\app.css" />
     <Content Include="UI\css\dashboard\app.css" />
     <Content Include="UI\css\errors\app.css" />
+    <Content Include="UI\css\lists\app.css" />
     <Content Include="UI\html\dashboard\index.html" />
     <Content Include="UI\html\auth\index.html" />
     <Content Include="UI\html\errors\403-error.html" />
@@ -96,6 +97,7 @@
     <Content Include="UI\html\errors\500-error.html" />
     <Content Include="UI\html\errors\report-message.html" />
     <Content Include="UI\html\lists\index.html" />
+    <Content Include="UI\html\lists\show.html" />
     <Content Include="UI\html\settings\colors-settings\furnitures-colors.html" />
     <Content Include="UI\html\settings\colors-settings\furnitures-set-colors.html" />
     <Content Include="UI\html\settings\colors-settings\colors.html" />

@@ -36,33 +36,14 @@
 
         <div class="log-out">
             <div id="log-out-icon">
-                XX
+                <p id="log-out-icon-text">XX</p>
             </div>
-            <a href="../auth/index.html">Cerrar Sesión</a>
+            <a href="../auth/index.html" onclick="localStorage.clear();">Cerrar Sesión</a>
         </div>
     </header>
 
-    <main class="lists-container">
-        <ul>
-            <li>
-                <a>Listado de Fabricación</a>
-            </li>
-            <li>
-                <a>Listado de Previsión de Tablero y Cantos</a>
-            </li>
-            <li>
-                <a>Listado de Artículos de Compra</a>
-            </li>
-            <li>
-                <a>Listado de Muebles</a>
-            </li>
-            <li>
-                <a>Listado para Optimización</a>
-            </li>
-            <li>
-                <a>Listado solo Part Number y Descripción</a>
-            </li>
-        </ul>
+    <main id="lists-container">
+        
     </main>
 
     <script src="../../js/lists/app.js"></script>
