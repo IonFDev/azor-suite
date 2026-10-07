@@ -3,55 +3,58 @@
 const token = localStorage.getItem('token');
 const user = JSON.parse(localStorage.getItem('user'));
 
-document.addEventListener('DOMContentLoaded', async () => {
+$(document).ready(function () {
 
-    const userLogo = document.getElementById('log-out-icon-text');
+    const userLogo = $('#log-out-icon-text');
 
-    if (user) {      
-        userLogo.innerText = user.name.charAt(0).toUpperCase() +
-            user.surname.charAt(0).toUpperCase();
+    if (user) {
+        userLogo.text(
+            user.name.charAt(0).toUpperCase() +
+            user.surname.charAt(0).toUpperCase()
+        );
     }
 
-    try {
-        const response = await fetch(`${API_URL}/listados`, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        })
+    $.ajax({
+        url: `${API_URL}/listados`,
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        success: function (data) {
 
-        if (!response.ok) { throw new Error(`HTTP ${response.status}`); }
+            const list = $('<ul>');
 
-        const data = await response.json();
+            data.forEach(function (listado) {
 
-        const container = document.getElementById('lists-container');
+                const listItem = $('<li>');
 
-        const list = document.createElement('ul');
-        container.append(list);
+                const itemName = $('<label>')
+                    .text(listado.name);
 
-        data.forEach((listado, i, Array) => {
+                const btnGenerateItem = $('<button>')
+                    .text('Generar')
+                    .addClass('btn-generate');
 
-            let listItem = document.createElement('li');
-            list.append(listItem);
+                const btnUseItem = $('<button>')
+                    .text('¿Qué hace?')
+                    .addClass('btn-use');
 
-            let itemName = document.createElement('label');
-            itemName.innerText = listado.name;
-            listItem.append(itemName);
+                listItem.append(
+                    itemName,
+                    btnGenerateItem,
+                    btnUseItem
+                );
 
-            let btnGenerateItem = document.createElement('button');
-            btnGenerateItem.innerText = 'Generar';
-            btnGenerateItem.classList.add('btn-generate');
-            listItem.append(btnGenerateItem);
+                list.append(listItem);
+            });
 
-            let btnUseItem = document.createElement('button');
-            btnUseItem.innerText = '¿Qué hace?';
-            btnUseItem.classList.add('btn-use');
-            listItem.append(btnUseItem);
-        });
+            $('#lists-container').append(list);
+        },
+        error: function (xhr, status, error) {
+            console.error('Error fetching listados:', error);
+            window.location.href = '../errors/404-error.html';
+        }
+    });
 
-    } catch (error) {
-        console.error('Error fetching listados:', error);
-        window.location.href = '../errors/404-error.html';
-    }
 });

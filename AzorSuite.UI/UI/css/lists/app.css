@@ -40,6 +40,7 @@
             color: var(--font-primary-color);
             font-size: 14px;
             font-weight: 600;
+            margin-left: 12px;
         }
 
         /* Botones */
@@ -103,6 +104,7 @@
             #lists-container li p {
                 width: 100%;
                 flex: none;
+                margin-right: 8px;
             }
 
             #lists-container li button {
