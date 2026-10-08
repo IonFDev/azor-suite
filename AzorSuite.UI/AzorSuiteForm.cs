@@ -1,9 +1,10 @@
 ﻿using Microsoft.Web.WebView2.WinForms;
 using System;
+using System.Diagnostics;
 using System.Drawing;
-using System.Windows.Forms;
-using System.Threading;
 using System.IO;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace AzorSuite.UI
 {
@@ -43,13 +44,23 @@ namespace AzorSuite.UI
 
                 System.IO.Directory.CreateDirectory(userDataFolder);
 
+                var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+
                 var environment =
                     await Microsoft.Web.WebView2.Core.CoreWebView2Environment.CreateAsync(
                         null,
                         userDataFolder
                     );
 
+                Console.WriteLine(
+                    $"CreateEnvironment: {stopwatch.ElapsedMilliseconds} ms"
+                );
+
                 await _webView.EnsureCoreWebView2Async(environment);
+
+                Console.WriteLine(
+                    $"EnsureCoreWebView2: {stopwatch.ElapsedMilliseconds} ms"
+                );
 
                 string uiDirectory = Path.Combine(
                     Path.GetDirectoryName(
@@ -66,6 +77,10 @@ namespace AzorSuite.UI
 
                 _webView.CoreWebView2.Navigate(
                     "https://azor-suite/html/auth/index.html"
+                );
+
+                Console.WriteLine(
+                    $"Navigate: {stopwatch.ElapsedMilliseconds} ms"
                 );
 
             } 

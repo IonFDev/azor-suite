@@ -96,6 +96,7 @@
     <Content Include="UI\html\errors\generic-error.html" />
     <Content Include="UI\html\errors\500-error.html" />
     <Content Include="UI\html\errors\report-message.html" />
+    <Content Include="UI\html\lists\create.html" />
     <Content Include="UI\html\lists\index.html" />
     <Content Include="UI\html\lists\show.html" />
     <Content Include="UI\html\settings\colors-settings\furnitures-colors.html" />
@@ -107,6 +108,7 @@
     <Content Include="UI\js\auth\app.js" />
     <Content Include="UI\js\dashboard\app.js" />
     <Content Include="UI\js\errors\app.js" />
+    <Content Include="UI\js\jquery.min.js" />
     <Content Include="UI\js\lists\app.js" />
     <Content Include="UI\js\settings\app.js" />
   </ItemGroup>

@@ -1,4 +1,4 @@
-﻿const API_URL = 'http://localhost:8080/api';
+﻿const API_URL = 'http://127.0.0.1:8082/api';
 
 const loginForm = document.getElementById('loginForm');
 const result = document.getElementById('result');
@@ -34,7 +34,7 @@ loginForm.addEventListener('submit', async (event) => {
             result.textContent = data.message;
             return;
         }
-        // Push the token an user data to localStorage and redirect to dashboard
+        // Push the token and user data to localStorage and redirect to dashboard
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
 
