@@ -8,7 +8,7 @@
     <title>Azor Suite | Listados</title>
 
     <link rel="stylesheet" href="../../css/app.css" />
-    <link rel="stylesheet" href="../../css/lists/app.css" />
+    <link rel="stylesheet" href="../../css/lists/create.css" />
 </head>
 
 <body>
@@ -25,7 +25,7 @@
                 </li>
 
                 <li>
-                    <a href="../lists/index.html" class="active">Listados</a>
+                    <a href="../lists/index.html">Listados</a>
                 </li>
 
                 <li>
@@ -42,11 +42,85 @@
         </div>
     </header>
 
-    <main id="lists-container">
+    <main id="create-list-container">
+
+        <section class="create-list-card">
+
+            <div class="create-list-header">
+                <p class="create-list-eyebrow">Listados</p>
+
+                <h2>Crear listado</h2>
+
+                <p>
+                    Define la información básica del listado y añade una imagen
+                    de ejemplo para identificarlo.
+                </p>
+            </div>
+
+            <form id="createListForm">
+
+                <div class="form-group">
+                    <label for="listName">
+                        Nombre del listado
+                    </label>
+
+                    <input type="text"
+                           id="listName"
+                           name="listName"
+                           placeholder="Ej. Listado de piezas"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label for="listDescription">
+                        Descripción
+                    </label>
+
+                    <textarea id="listDescription"
+                              name="listDescription"
+                              placeholder="Describe brevemente para qué sirve este listado..."
+                              required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="listImage">
+                        Imagen de ejemplo
+                    </label>
+
+                    <div class="image-upload">
+                        <input type="file"
+                               id="listImage"
+                               name="listImage"
+                               accept="image/*">
+
+                        <label for="listImage" class="image-upload-label">
+                            Seleccionar imagen
+                        </label>
+
+                        <div id="imagePreview" class="image-preview">
+                            <span>Vista previa de la imagen</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="create-list-actions">
+                    <a href="../lists/index.html" class="btn-cancel">
+                        Cancelar
+                    </a>
+
+                    <button type="submit" class="btn-create">
+                        Crear listado
+                    </button>
+                </div>
+
+            </form>
+
+        </section>
 
     </main>
+
     <script src="../../js/jquery.min.js"></script>
-    <script src="../../js/lists/app.js"></script>
+    <script src="../../js/lists/create.js"></script>
 
 </body>
 </html>

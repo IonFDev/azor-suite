@@ -89,6 +89,7 @@
     <Content Include="UI\css\dashboard\app.css" />
     <Content Include="UI\css\errors\app.css" />
     <Content Include="UI\css\lists\app.css" />
+    <Content Include="UI\css\lists\create.css" />
     <Content Include="UI\html\dashboard\index.html" />
     <Content Include="UI\html\auth\index.html" />
     <Content Include="UI\html\errors\403-error.html" />
@@ -110,6 +111,7 @@
     <Content Include="UI\js\errors\app.js" />
     <Content Include="UI\js\jquery.min.js" />
     <Content Include="UI\js\lists\app.js" />
+    <Content Include="UI\js\lists\create.js" />
     <Content Include="UI\js\settings\app.js" />
   </ItemGroup>
   <ItemGroup>

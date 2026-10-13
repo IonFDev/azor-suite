@@ -19,14 +19,17 @@ $(document).ready(function () {
                 user.surname.charAt(0).toUpperCase()
             );
 
+            console.log(user);
+
             if (user.role === 'admin') {
                 const adminButton = $('<button>')
                     .text('+ Agregar Listado')
                     .addClass('btn-add-list')
                     .attr('onclick', 'window.location.href = "create.html"');
 
-                $('#lists-container').append(adminButton);
+                $('#lists-container').prepend(adminButton);
             }
+
 
         }
 
@@ -47,8 +50,14 @@ $(document).ready(function () {
 
                 const listItem = $('<li>');
 
+                const listContainer = $('<div>')
+                    .addClass('list-container');                    ;
+
                 const itemName = $('<label>')
                     .text(listado.name);
+
+                const descItemName = $('<p>')
+                    .text(listado.description);
 
                 const btnGenerateItem = $('<button>')
                     .text('Generar')
@@ -58,9 +67,10 @@ $(document).ready(function () {
                     .text('¿Qué hace?')
                     .addClass('btn-use');
                     
-
+                listContainer.append(itemName, descItemName);
+                
                 listItem.append(
-                    itemName,
+                    listContainer,
                     btnGenerateItem,
                     btnUseItem
                 );
